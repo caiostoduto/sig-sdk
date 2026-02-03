@@ -29,14 +29,32 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
+      - name: Checkout docs from gh-pages
+        run: |
+          git fetch origin gh-pages
+          git checkout origin/gh-pages -- docs
+
       - name: Build documentation
         run: pnpm run build:docs
 
-      - name: Deploy to GitHub Pages
+      - name: Commit and push changes
         run: |
-          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git config --global user.name "github-actions[bot]"
+          # Configure git
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config user.name "github-actions[bot]"
+          
+          # Save the built docs to a temp location
+          mv docs /tmp/docs-build
+
+          # Switch to gh-pages branch
+          git fetch origin gh-pages
           git checkout gh-pages
+          
+          # Replace docs with the new build
+          rm -rf docs
+          mv /tmp/docs-build docs
+
+          # Add, commit, and push changes
           git add docs
-          git commit -m "CI updated the documentation"
+          git commit -m "CI updated the documentation" || echo "No changes to commit"
           git push
