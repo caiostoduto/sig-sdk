@@ -4,7 +4,7 @@
     "./src/index.ts"
   ],
   "out": "./docs",
-  "plugin": [],
+  "plugin": ["@shipgirl/typedoc-plugin-versions"],
   "excludePrivate": true,
   "excludeProtected": false,
   "excludeExternals": true,
