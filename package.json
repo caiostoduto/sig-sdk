@@ -1,7 +1,7 @@
 {
-  "name": "sigaa-sdk",
+  "name": "sig-sdk",
   "version": "1.0.1",
-  "description": "TypeScript SDK for SIGAA",
+  "description": "TypeScript SDK for SIG",
   "type": "module",
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
@@ -36,7 +36,7 @@
   ],
   "author": "",
   "license": "GPL-3.0",
-  "packageManager": "pnpm@10.28.2",
+  "packageManager": "pnpm@10.30.0+sha512.2b5753de015d480eeb88f5b5b61e0051f05b4301808a82ec8b840c9d2adf7748eb352c83f5c1593ca703ff1017295bc3fdd3119abb9686efc96b9fcb18200937",
   "devDependencies": {
     "@biomejs/biome": "2.3.14",
     "@types/node": "^25.2.0",
@@ -45,5 +45,9 @@
     "tsup": "^8.5.1",
     "typescript": "^5.9.3",
     "vitest": "^4.0.18"
+  },
+  "dependencies": {
+    "cheerio": "^1.2.0",
+    "ky": "^1.14.3"
   }
 }
