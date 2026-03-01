@@ -7,6 +7,7 @@ import {
 	buscarComponentesBody,
 	Componente,
 	type ComponenteResponse,
+	type CurriculoComponente,
 } from "../public/searchComponents";
 import { UFABCSigaaSession } from "./session";
 
@@ -152,6 +153,22 @@ function parseComponente(componenteBody: string): UFABCComponenteResponse {
 
 	componente["Carga Horária de Aula Extensionista - a Distância"] =
 		getFieldValue($, "td", "Carga Horária de Aula Extensionista - a Distância");
+
+	componente["Currículos"] = $("table#listaCurriculosComponente > tbody > tr")
+		.toArray()
+		.map((tr) => {
+			const tds = $(tr).find("td");
+
+			const curriculo = {} as CurriculoComponente;
+			curriculo["Código"] = tds.eq(0).text().trim();
+			curriculo["Ano.Período de Implementação"] = tds.eq(1).text().trim();
+			curriculo["Matriz Curricular"] = tds.eq(2).text().trim();
+			curriculo["Obrigatória"] = tds.eq(3).text().trim() as "Sim" | "Não";
+			curriculo["Período"] = parseInt(tds.eq(4).text().trim(), 10);
+			curriculo["Ativo"] = tds.eq(5).text().trim() as "Sim" | "Não";
+
+			return curriculo;
+		});
 
 	return componente;
 }

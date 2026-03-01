@@ -155,7 +155,7 @@ export interface BuscarComponentesBodyOptions<T extends SigaaTypes> {
 	nomeComponente?: string;
 }
 
-interface CurriculoComponente {
+export interface CurriculoComponente {
 	Código: string;
 	"Ano.Período de Implementação": string;
 	"Matriz Curricular": string;
