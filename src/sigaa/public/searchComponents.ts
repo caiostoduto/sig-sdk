@@ -14,6 +14,13 @@ export async function buscarComponentesBody<T extends SigaaTypes>(
 		new URL("sigaa/public/componentes/busca_componentes.jsf", session.baseUrl),
 	);
 
+	// Check if the response is successful
+	if (res.status !== 200) {
+		throw new Error(
+			`Failed to search components: ${res.status} ${res.statusText}`,
+		);
+	}
+
 	// Prepare body parameters for the POST request
 	const bodyParams = buildBodyParams(
 		options.nivel,
