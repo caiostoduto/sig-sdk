@@ -28,7 +28,7 @@ export class UFABCSigaaSession extends SigaaSession {
 		}
 
 		// Start the login process by loading the login page to establish a session and retrieve any necessary cookies
-		let res = await this.ky_instance.get(
+		let res = await this.kyInstance.get(
 			new URL("/sigaa/verTelaLogin.do", this.baseUrl),
 		);
 
@@ -38,7 +38,7 @@ export class UFABCSigaaSession extends SigaaSession {
 		}
 
 		// After successfully loading the login page, submit the login form with the provided credentials to authenticate the user
-		res = await this.ky_instance.post(
+		res = await this.kyInstance.post(
 			new URL("/sigaa/logar.do?dispatch=logOn", this.baseUrl),
 			{
 				body: new URLSearchParams({

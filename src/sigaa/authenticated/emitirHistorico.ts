@@ -7,7 +7,7 @@ export async function emitirHistoricoPDF(
 	await session.login();
 
 	// Use the session's Ky instance to make requests
-	const kyInstance = session.ky_instance;
+	const kyInstance = session.kyInstance;
 
 	// Initial GET request to maintain the session and capture the JSESSIONID from the response headers
 	let res = await kyInstance.get(

@@ -4,7 +4,7 @@ export abstract class SigaaSession extends SigSession {
 	public async logout() {
 		if (!this.jsessionid) return;
 
-		const res = await this.ky_instance.get(
+		const res = await this.kyInstance.get(
 			new URL("/sigaa/logar.do?dispatch=logOff", this.baseUrl),
 		);
 

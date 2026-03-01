@@ -7,7 +7,7 @@ export async function buscarComponentesBody<T extends SigaaTypes>(
 	session: SigaaSession,
 ): Promise<string> {
 	// Use the session's Ky instance to make requests
-	const kyInstance = session.ky_instance;
+	const kyInstance = session.kyInstance;
 
 	// Initial GET request to maintain the session and capture the JSESSIONID from the response headers
 	let res = await kyInstance.get(
@@ -117,7 +117,7 @@ export class Componente<T extends Record<string, any>> {
 
 	public async fetch(): Promise<T> {
 		// Use the session's Ky instance to make requests
-		const kyInstance = this.session.ky_instance;
+		const kyInstance = this.session.kyInstance;
 
 		// Prepare body parameters for the POST request to fetch component details
 		const bodyParams = new URLSearchParams(this.formObj);

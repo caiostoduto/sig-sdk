@@ -14,7 +14,7 @@ export abstract class SigSession {
 	protected jsessionid: string | null = null;
 	protected lastUpdate: number | null = null;
 
-	public readonly ky_instance = ky.create({
+	public readonly kyInstance = ky.create({
 		headers: {
 			"Cache-Control": "max-age=0",
 			Connection: "keep-alive",
