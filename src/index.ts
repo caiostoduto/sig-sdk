@@ -4,4 +4,4 @@
  */
 export const version = "1.0.1";
 
-export { UFABCSigaaClient } from "./sigaa/ufabc/client";
+export * from "./sigaa/ufabc/client";

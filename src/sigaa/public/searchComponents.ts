@@ -1,12 +1,10 @@
 import { getTextResponse } from "../../utils/helper";
+import type { SigaaTypes } from "../client";
 import type { SigaaSession } from "../session";
 
-export async function buscarComponentesBody(
+export async function buscarComponentesBody<T extends SigaaTypes>(
+	options: BuscarComponentesBodyOptions<T>,
 	session: SigaaSession,
-	nivel: string,
-	tipo: number | null = null,
-	codComponente: string = "",
-	nomeComponente: string = "",
 ): Promise<string> {
 	// Use the session's Ky instance to make requests
 	const kyInstance = session.ky_instance;
@@ -18,10 +16,10 @@ export async function buscarComponentesBody(
 
 	// Prepare body parameters for the POST request
 	const bodyParams = buildBodyParams(
-		nivel,
-		tipo,
-		codComponente,
-		nomeComponente,
+		options.nivel,
+		options.tipo,
+		options.codComponente,
+		options.nomeComponente,
 	);
 
 	// Make the POST request to search for components
@@ -47,7 +45,7 @@ export async function buscarComponentesBody(
 
 function buildBodyParams(
 	nivel: string,
-	tipo: number | null = null,
+	tipo: number | undefined = undefined,
 	codComponente: string = "",
 	nomeComponente: string = "",
 ) {
@@ -141,6 +139,13 @@ export class Componente<T extends Record<string, any>> {
 		const txt = await getTextResponse(res);
 		return this.parseComponenteFn(txt);
 	}
+}
+
+export interface BuscarComponentesBodyOptions<T extends SigaaTypes> {
+	nivel: T["searchComponentNivel"];
+	tipo?: T["searchComponentTipo"] | undefined;
+	codComponente?: string;
+	nomeComponente?: string;
 }
 
 interface CurriculoComponente {

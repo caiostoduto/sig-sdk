@@ -1,6 +1,13 @@
 import { SigaaSession } from "../session";
 
+export const SIGAA_BASE_URL = new URL("https://sig.ufabc.edu.br/sigaa");
+export const EXPIRE_SESSION_AFTER_MINUTES = 25;
+
 export class UFABCSigaaSession extends SigaaSession {
+	constructor() {
+		super(SIGAA_BASE_URL, EXPIRE_SESSION_AFTER_MINUTES);
+	}
+
 	public async login() {
 		// Check if username and password are provided in the options before attempting to log in
 		if (

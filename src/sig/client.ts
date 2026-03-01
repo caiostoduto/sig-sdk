@@ -1,13 +1,9 @@
-import type { SigSessionOptions } from "./session.js";
+import type { SigSession } from "./session.js";
 
 export abstract class SigClient {
-	protected readonly baseUrl: URL;
-	protected readonly options?: SigClientOptions;
+	protected readonly session?: SigSession;
 
-	constructor(baseUrl: URL, options: SigClientOptions = {}) {
-		this.baseUrl = baseUrl;
-		this.options = options;
+	constructor(session?: SigSession) {
+		this.session = session;
 	}
 }
-
-export type SigClientOptions = {} & SigSessionOptions;

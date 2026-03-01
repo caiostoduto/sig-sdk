@@ -1,41 +1,31 @@
+/** biome-ignore-all lint/complexity/useLiteralKeys: <explanation> */
 import * as cheerio from "cheerio";
 import { getFieldValue } from "../../utils/helper";
 import { SigaaClient, type SigaaTypes } from "../client";
 import {
+	type BuscarComponentesBodyOptions,
 	buscarComponentesBody,
 	Componente,
 	type ComponenteResponse,
 } from "../public/searchComponents";
 import { UFABCSigaaSession } from "./session";
 
-export const SIGAA_BASE_URL = new URL("https://sig.ufabc.edu.br/sigaa");
-export const EXPIRE_SESSION_AFTER_MINUTES = 25;
-
 export class UFABCSigaaClient extends SigaaClient<UFABCSigaaTypes> {
-	constructor() {
-		super(SIGAA_BASE_URL);
+	constructor(ufabcSigaaSession?: UFABCSigaaSession) {
+		// Create a new session for the UFABC Sigaa client if one is not provided
+		ufabcSigaaSession = ufabcSigaaSession ?? new UFABCSigaaSession();
+
+		super(ufabcSigaaSession);
 	}
 
 	public async buscarComponentes(
-		nivel: SigaaSearchComponentsNivel,
-		tipo: SigaaSearchComponentsTipo | undefined = undefined,
-		codComponente: string = "",
-		nomeComponente: string = "",
+		options: BuscarComponentesBodyOptions<UFABCSigaaTypes>,
 	): Promise<Componente<UFABCComponenteResponse>[]> {
-		// Create a new session for the UFABC Sigaa client
-		const session = new UFABCSigaaSession(
-			SIGAA_BASE_URL,
-			EXPIRE_SESSION_AFTER_MINUTES,
-		);
+		// Get the current session
+		const session = this.session as UFABCSigaaSession;
 
 		// Fetch the components body using the provided search parameters
-		const componentesBody = await buscarComponentesBody(
-			session,
-			nivel,
-			tipo,
-			codComponente,
-			nomeComponente,
-		);
+		const componentesBody = await buscarComponentesBody(options, session);
 
 		// Parse the components body and return the found components
 		return this.parseComponentesBody(session, componentesBody);
@@ -120,6 +110,7 @@ function parseComponente(componenteBody: string): UFABCComponenteResponse {
 	componente["Ementa/Descrição"] = getFieldValue($, "th", "Ementa/Descrição:");
 
 	componente["Referências"] = getFieldValue($, "th", "Referências:")
+		.replace(/^"+|"+$/g, "")
 		.split("\n")
 		.map((ref) => ref.trim())
 		.filter(
@@ -130,11 +121,11 @@ function parseComponente(componenteBody: string): UFABCComponenteResponse {
 }
 
 interface UFABCSigaaTypes extends SigaaTypes {
-	searchComponentNivel: SigaaSearchComponentsNivel;
-	searchComponentTipo: SigaaSearchComponentsTipo;
+	searchComponentNivel: UFABCSigaaSearchComponentsNivel;
+	searchComponentTipo: UFABCSigaaSearchComponentsTipo;
 }
 
-export enum SigaaSearchComponentsNivel {
+export enum UFABCSigaaSearchComponentsNivel {
 	INFANTIL = "I",
 	FUNDAMENTAL = "U",
 	MEDIO = "M",
@@ -147,7 +138,7 @@ export enum SigaaSearchComponentsNivel {
 	STRICTO_SENSU = "S",
 }
 
-export enum SigaaSearchComponentsTipo {
+export enum UFABCSigaaSearchComponentsTipo {
 	DISCIPLINA = 2,
 	ATIVIDADE = 1,
 	BLOCO = 4,
