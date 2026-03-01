@@ -1,5 +1,6 @@
 import { UFABCSigaaSession } from "@/src/index";
 
+// Cria uma sessão do UFABC Sigaa com as credenciais do usuário
 const session = new UFABCSigaaSession({
 	username: "...",
 	password: "...",
