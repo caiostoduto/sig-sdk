@@ -1,15 +1,15 @@
 import { UFABCSigaaClient, UFABCSigaaSearchComponentsNivel } from "@/src/index";
 
-// Create a new instance of the UFABCSigaaClient with the default session (unauthenticated)
+// Cria instância de UFABCSigaaClient com sessão padrão (não autenticada)
 const client = new UFABCSigaaClient();
 
-// Search for components with the specified parameters (e.g.: undergraduate level and component code "MCCC004")
+// Busca componentes com código "MCCC004" no nível de graduação
 const components = await client.buscarComponentes({
 	nivel: UFABCSigaaSearchComponentsNivel.GRADUACAO,
 	codComponente: "MCCC004",
 });
 console.log(components[0]);
 
-// Fetch the details of the first found component and log it
+// Busca detalhes do primeiro componente encontrado
 const component = await components[0].fetch();
 console.log(component);

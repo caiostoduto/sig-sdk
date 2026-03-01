@@ -7,6 +7,8 @@ import type {
 export abstract class SigaaClient<
 	T extends SigaaTypes = SigaaTypes,
 > extends SigClient {
+	public abstract emitirHistorico(): Promise<ArrayBuffer>;
+
 	public abstract buscarComponentes(
 		options: BuscarComponentesBodyOptions<T>,
 		// biome-ignore lint/suspicious/noExplicitAny: Unkown structure of the component details response, so we use a generic Record<string, any> type for flexibility

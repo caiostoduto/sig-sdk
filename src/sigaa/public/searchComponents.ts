@@ -35,6 +35,10 @@ export async function buscarComponentesBody<T extends SigaaTypes>(
 		{
 			headers: {
 				"Content-Type": "application/x-www-form-urlencoded",
+				Referer: new URL(
+					"sigaa/public/componentes/busca_componentes.jsf",
+					session.baseUrl,
+				).toString(),
 			},
 			body: bodyParams,
 		},
