@@ -23,6 +23,8 @@ export class UFABCSigaaClient extends SigaaClient<UFABCSigaaTypes> {
 	public async emitirHistorico() {
 		const session = this.session as UFABCSigaaSession;
 		const arrayBuffer = await emitirHistoricoPDF(session);
+
+		return arrayBuffer;
 	}
 
 	public async buscarComponentes(

@@ -7,7 +7,7 @@ import type {
 export abstract class SigaaClient<
 	T extends SigaaTypes = SigaaTypes,
 > extends SigClient {
-	public abstract emitirHistorico(): Promise<void>;
+	public abstract emitirHistorico(): Promise<ArrayBuffer>;
 
 	public abstract buscarComponentes(
 		options: BuscarComponentesBodyOptions<T>,
