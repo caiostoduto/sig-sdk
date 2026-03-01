@@ -110,7 +110,7 @@ function parseComponente(componenteBody: string): UFABCComponenteResponse {
 	componente["Ementa/Descrição"] = getFieldValue($, "th", "Ementa/Descrição:");
 
 	componente["Referências"] = getFieldValue($, "th", "Referências:")
-		.replace(/^"+|"+$/g, "")
+		.replace(/^"|"$/g, "")
 		.split("\n")
 		.map((ref) => ref.trim())
 		.filter(
