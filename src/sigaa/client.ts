@@ -9,7 +9,7 @@ export abstract class SigaaClient<
 > extends SigClient {
 	public abstract buscarComponentes(
 		options: BuscarComponentesBodyOptions<T>,
-		// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+		// biome-ignore lint/suspicious/noExplicitAny: Unkown structure of the component details response, so we use a generic Record<string, any> type for flexibility
 	): Promise<Componente<Record<string, any>>[]>;
 }
 
