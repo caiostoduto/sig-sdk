@@ -2,22 +2,34 @@ import type { CheerioAPI } from "cheerio";
 import type { KyResponse } from "ky";
 
 /**
- * Helper function to extract and trim text from a table field
+ * Helper function to extract and trim text from a table field.
+ * Works for both `<th>label</th><td>value</td>` and `<td>label</td><td>value</td>` patterns.
  * @param $ - Cheerio instance
- * @param selector - CSS selector for the element to search (e.g., "th", "b")
- * @param searchText - Text to search for within the element
- * @returns Trimmed text from the corresponding td element
+ * @param selector - CSS selector for the label element to search (e.g., "th", "td", "b")
+ * @param searchText - Text to search for within the label element
+ * @returns Trimmed text from the next sibling td element
  */
 export function getFieldValue(
 	$: CheerioAPI,
 	selector: string,
 	searchText: string,
 ): string {
-	return $(selector)
-		.filter((_, el) => $(el).text().includes(searchText))
-		.first()
+	const labelEl = $(selector)
+		.filter((_, el) => {
+			const $el = $(el);
+			// Exclude ancestor elements that contain the search text only via descendants
+			return $el.find(selector).length === 0 && $el.text().includes(searchText);
+		})
+		.first();
+
+	// Navigate to the owning cell (the td/th that contains the label element),
+	// then find the value td in the same row, excluding the label's cell.
+	const labelCell = labelEl.closest("td, th");
+	return labelEl
 		.closest("tr")
-		.find("td")
+		.children("td")
+		.not(labelCell)
+		.first()
 		.text()
 		.trim();
 }

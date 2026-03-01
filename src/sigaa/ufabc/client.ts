@@ -117,6 +117,42 @@ function parseComponente(componenteBody: string): UFABCComponenteResponse {
 			(ref) => ref !== "" && ref.toUpperCase() !== "BIBLIOGRAFIA COMPLEMENTAR",
 		);
 
+	componente["Carga Horária de Estudo Individual"] = getFieldValue(
+		$,
+		"td",
+		"Carga Horária de Estudo Individual",
+	);
+
+	componente["Carga Horária de Aula Teórica - Presencial"] = getFieldValue(
+		$,
+		"td",
+		"Carga Horária de Aula Teórica - Presencial",
+	);
+
+	componente["Carga Horária de Aula Prática - Presencial"] = getFieldValue(
+		$,
+		"td",
+		"Carga Horária de Aula Prática - Presencial",
+	);
+
+	componente["Carga Horária de Aula Extensionista - Presencial"] =
+		getFieldValue($, "td", "Carga Horária de Aula Extensionista - Presencial");
+
+	componente["Carga Horária de Aula Teórica - a Distância"] = getFieldValue(
+		$,
+		"td",
+		"Carga Horária de Aula Teórica - a Distância",
+	);
+
+	componente["Carga Horária de Aula Prática - a Distância"] = getFieldValue(
+		$,
+		"td",
+		"Carga Horária de Aula Prática - a Distância",
+	);
+
+	componente["Carga Horária de Aula Extensionista - a Distância"] =
+		getFieldValue($, "td", "Carga Horária de Aula Extensionista - a Distância");
+
 	return componente;
 }
 
@@ -148,4 +184,11 @@ export enum UFABCSigaaSearchComponentsTipo {
 interface UFABCComponenteResponse extends ComponenteResponse {
 	// Dados Gerais do Componente Curricular
 	Referências: string[];
+	"Carga Horária de Estudo Individual": string;
+	"Carga Horária de Aula Teórica - Presencial": string;
+	"Carga Horária de Aula Prática - Presencial": string;
+	"Carga Horária de Aula Extensionista - Presencial": string;
+	"Carga Horária de Aula Teórica - a Distância": string;
+	"Carga Horária de Aula Prática - a Distância": string;
+	"Carga Horária de Aula Extensionista - a Distância": string;
 }
