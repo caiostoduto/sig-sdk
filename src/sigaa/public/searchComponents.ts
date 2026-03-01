@@ -72,7 +72,7 @@ function buildBodyParams(
 	return bodyParams;
 }
 
-// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+// biome-ignore lint/suspicious/noExplicitAny: Unkown structure of the component details response, so we use a generic Record<string, any> type for flexibility
 export class Componente<T extends Record<string, any>> {
 	// Component details extracted from the search results
 	public codigo: string;

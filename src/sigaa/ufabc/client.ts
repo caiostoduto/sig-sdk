@@ -1,4 +1,4 @@
-/** biome-ignore-all lint/complexity/useLiteralKeys: <explanation> */
+/** biome-ignore-all lint/complexity/useLiteralKeys: Create an uniform pattern without unnecessary warnings */
 import * as cheerio from "cheerio";
 import { getFieldValue } from "../../utils/helper";
 import { SigaaClient, type SigaaTypes } from "../client";
