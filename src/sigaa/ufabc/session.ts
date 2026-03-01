@@ -10,6 +10,15 @@ export class UFABCSigaaSession extends SigaaSession {
 	}
 
 	public async login() {
+		// Session is still valid, no need to log in again
+		if (
+			this.jsessionid &&
+			this.lastUpdate &&
+			this.lastUpdate >= Date.now() - (this.expireSessionAfterMinutes - 1) * 6e4
+		) {
+			return;
+		}
+
 		// Check if username and password are provided in the options before attempting to log in
 		if (
 			this.options.password === undefined ||

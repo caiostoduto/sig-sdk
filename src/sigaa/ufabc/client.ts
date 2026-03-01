@@ -1,6 +1,7 @@
 /** biome-ignore-all lint/complexity/useLiteralKeys: Create an uniform pattern without unnecessary warnings */
 import * as cheerio from "cheerio";
 import { getFieldValue } from "../../utils/helper";
+import { emitirHistoricoPDF } from "../authenticated/emitirHistorico";
 import { SigaaClient, type SigaaTypes } from "../client";
 import {
 	type BuscarComponentesBodyOptions,
@@ -17,6 +18,11 @@ export class UFABCSigaaClient extends SigaaClient<UFABCSigaaTypes> {
 		ufabcSigaaSession = ufabcSigaaSession ?? new UFABCSigaaSession();
 
 		super(ufabcSigaaSession);
+	}
+
+	public async emitirHistorico() {
+		const session = this.session as UFABCSigaaSession;
+		const arrayBuffer = await emitirHistoricoPDF(session);
 	}
 
 	public async buscarComponentes(

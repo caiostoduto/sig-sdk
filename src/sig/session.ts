@@ -40,7 +40,7 @@ export abstract class SigSession {
 		this.options = options;
 
 		// Initialize session if provided in options
-		this.setJsessionId(options.session ?? null);
+		this.setJSession(options.session ?? null);
 	}
 
 	private async beforeRequestHook(request: Request): Promise<void> {
@@ -53,7 +53,7 @@ export abstract class SigSession {
 				if (request.method !== "GET")
 					throw new Error("Session expired. Please create a new session.");
 
-				return this.setJsessionId(null);
+				return this.setJSession(null);
 			}
 
 			request.headers.set("Cookie", `JSESSIONID=${this.jsessionid}`);
@@ -73,7 +73,7 @@ export abstract class SigSession {
 				.find((cookie) => cookie.trim().startsWith("JSESSIONID="));
 
 			if (setCookie) {
-				return this.setJsessionId({
+				return this.setJSession({
 					jsessionid: setCookie.trim().substring("JSESSIONID=".length),
 					lastUpdate: Date.now(),
 				});
@@ -98,9 +98,17 @@ export abstract class SigSession {
 	 * @param session - An optional SessionInfo object containing the JSESSIONID and last update timestamp. If null, the session information will be cleared.
 	 * @returns void
 	 */
-	protected setJsessionId(session: SessionInfo | null = null): void {
+	protected setJSession(session: SessionInfo | null = null): void {
 		this.jsessionid = session?.jsessionid ?? null;
 		this.lastUpdate = session?.lastUpdate ?? null;
+	}
+
+	public getJessionId(): string | null {
+		return this.jsessionid;
+	}
+
+	getJsessionLastUpdate(): number | null {
+		return this.lastUpdate;
 	}
 
 	public abstract login(): Promise<void>;
