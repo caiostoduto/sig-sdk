@@ -1,11 +1,12 @@
+import type { SigSessionOptions } from "@/src/sig/session";
 import { SigaaSession } from "../session";
 
-export const SIGAA_BASE_URL = new URL("https://sig.ufabc.edu.br/sigaa");
-export const EXPIRE_SESSION_AFTER_MINUTES = 25;
+const SIGAA_BASE_URL = new URL("https://sig.ufabc.edu.br/sigaa");
+const EXPIRE_SESSION_AFTER_MINUTES = 25;
 
 export class UFABCSigaaSession extends SigaaSession {
-	constructor() {
-		super(SIGAA_BASE_URL, EXPIRE_SESSION_AFTER_MINUTES);
+	constructor(options: SigSessionOptions = {}) {
+		super(SIGAA_BASE_URL, EXPIRE_SESSION_AFTER_MINUTES, options);
 	}
 
 	public async login() {
@@ -19,7 +20,7 @@ export class UFABCSigaaSession extends SigaaSession {
 
 		// Start the login process by loading the login page to establish a session and retrieve any necessary cookies
 		let res = await this.ky_instance.get(
-			new URL("/verTelaLogin.do", this.baseUrl),
+			new URL("/sigaa/verTelaLogin.do", this.baseUrl),
 		);
 
 		// If the login page fails to load, throw an error
@@ -29,7 +30,7 @@ export class UFABCSigaaSession extends SigaaSession {
 
 		// After successfully loading the login page, submit the login form with the provided credentials to authenticate the user
 		res = await this.ky_instance.post(
-			new URL("/logar.do?dispatch=logOn", this.baseUrl),
+			new URL("/sigaa/logar.do?dispatch=logOn", this.baseUrl),
 			{
 				body: new URLSearchParams({
 					width: "1710",
@@ -48,8 +49,12 @@ export class UFABCSigaaSession extends SigaaSession {
 		);
 
 		// If the login form submission does not result in a redirect (status code 302), it indicates that the login attempt was unsuccessful, and an error is thrown
-		if (res.status !== 302) {
-			throw new Error("Failed to load login page");
+		if (
+			res.status !== 200 ||
+			!res.redirected ||
+			res.url !== new URL("/sigaa/verMenuPrincipal.do", this.baseUrl).href
+		) {
+			throw new Error("Failed to login");
 		}
 	}
 }
