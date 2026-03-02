@@ -15,6 +15,7 @@ jobs:
     permissions:
       contents: write   # push version commit + tag
       id-token: write   # npm provenance attestation
+      packages: write   # publish to GitHub Packages
 
     steps:
       - uses: actions/checkout@v6
