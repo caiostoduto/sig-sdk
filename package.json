@@ -1,6 +1,6 @@
 {
 	"name": "@caiostoduto/sig-sdk",
-	"version": "0.1.0",
+	"version": "1.0.0",
 	"description": "TypeScript SDK for SIG",
 	"type": "module",
 	"main": "./dist/index.cjs",
